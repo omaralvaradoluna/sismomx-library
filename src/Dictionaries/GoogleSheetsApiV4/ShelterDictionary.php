@@ -14,6 +14,7 @@ final class ShelterDictionary
     const ADDRESS = 'address';
     const ZONE = 'zone';
     const MAP = 'map';
+    const GEOLOCATION = 'geolocation';
     const MORE_INFORMATION = 'more_information';
     const UPDATED_AT = 'updated_at';
     const CREATED_AT = 'created_at';

@@ -7,6 +7,7 @@ use CodeandoMexico\Sismomx\Core\Dictionaries\GoogleSheetsApiV4\HelpRequestDictio
 use CodeandoMexico\Sismomx\Core\Dtos\HelpRequestDto;
 use CodeandoMexico\Sismomx\Core\Interfaces\Builders\HelpRequestBuilderInterface;
 use CodeandoMexico\Sismomx\Core\Traits\Base\DatesHelper;
+use CodeandoMexico\Sismomx\Core\Traits\Base\GoogleGeolocationTrait;
 
 /**
  * Class HelpRequestBuilder
@@ -16,6 +17,7 @@ use CodeandoMexico\Sismomx\Core\Traits\Base\DatesHelper;
 class HelpRequestBuilder extends BuilderAbstract implements HelpRequestBuilderInterface
 {
     use DatesHelper;
+    use GoogleGeolocationTrait;
     /**
      * @var HelpRequestDto
      */
@@ -40,6 +42,7 @@ class HelpRequestBuilder extends BuilderAbstract implements HelpRequestBuilderIn
         $this->builtable->zone = $this->values->getValue(HelpRequestDictionary::ZONE);
         $this->builtable->urgencyLevel = $this->values->getValue(HelpRequestDictionary::URGENCY_LEVEL);
         $this->builtable->address = $this->values->getValue(HelpRequestDictionary::ADDRESS);
+        $this->builtable->geolocation = $this->getGeolocationFromAddress($this->builtable->address);
         $this->builtable->encodedKey = $this->values->getValue(HelpRequestDictionary::ENCODED_KEY);
         $this->builtable->admitted = $this->values->getValue(HelpRequestDictionary::ADMITTED);
         $this->builtable->brigadeRequired = $this->values->getValue(HelpRequestDictionary::BRIGADE_REQUIRED);

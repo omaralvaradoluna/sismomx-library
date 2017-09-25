@@ -15,6 +15,7 @@ final class CollectionCenterDictionary
     const ADDRESS = 'address';
     const ZONE = 'zone';
     const MAP = 'map';
+    const GEOLOCATION = 'geolocation';
     const MORE_INFORMATION = 'more_information';
     const CONTACT = 'contact';
     const UPDATED_AT = 'updated_at';

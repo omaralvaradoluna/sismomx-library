@@ -37,6 +37,7 @@ class ShelterDbMutator implements \JsonSerializable
             ShelterDictionary::ADDRESS => $this->dto->address,
             ShelterDictionary::ZONE => $this->dto->zone,
             ShelterDictionary::MAP => $this->dto->map,
+            ShelterDictionary::GEOLOCATION => $this->dto->geolocation,
             ShelterDictionary::MORE_INFORMATION => $this->dto->moreInformation,
             ShelterDictionary::UPDATED_AT => $this->dto->updatedAt,
             ShelterDictionary::CREATED_AT => $this->dto->createdAt,

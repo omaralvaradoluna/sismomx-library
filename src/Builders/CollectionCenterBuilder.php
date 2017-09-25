@@ -6,6 +6,7 @@ use CodeandoMexico\Sismomx\Core\Dictionaries\GoogleSheetsApiV4\CollectionCenterD
 use CodeandoMexico\Sismomx\Core\Dtos\CollectionCenterDto;
 use CodeandoMexico\Sismomx\Core\Interfaces\Builders\CollectionCenterBuilderInterface;
 use CodeandoMexico\Sismomx\Core\Traits\Base\DatesHelper;
+use CodeandoMexico\Sismomx\Core\Traits\Base\GoogleGeolocationTrait;
 
 /**
  * Class CollectionCenterBuilder
@@ -15,6 +16,7 @@ use CodeandoMexico\Sismomx\Core\Traits\Base\DatesHelper;
 class CollectionCenterBuilder extends BuilderAbstract implements CollectionCenterBuilderInterface
 {
     use DatesHelper;
+    use GoogleGeolocationTrait;
     /**
      * @var CollectionCenterDto
      */
@@ -41,6 +43,10 @@ class CollectionCenterBuilder extends BuilderAbstract implements CollectionCente
         $this->builtable->address = $this->values->getValue(CollectionCenterDictionary::ADDRESS);
         $this->builtable->contact = $this->values->getValue(CollectionCenterDictionary::CONTACT);
         $this->builtable->location = $this->values->getValue(CollectionCenterDictionary::LOCATION);
+        $this->builtable->geolocation = $this->getGeolocationFromUrl($this->values->getValue(CollectionCenterDictionary::MAP));
+        if (empty($this->builtable->geolocation) === true) {
+            $this->builtable->geolocation = $this->getGeolocationFromAddress($this->builtable->address);
+        }
         $this->builtable->moreInformation = $this->values->getValue(CollectionCenterDictionary::MORE_INFORMATION);
         $this->builtable->requirementsDetails = $this->values->getValue(
             CollectionCenterDictionary::REQUIREMENTS_DETAILS

@@ -38,6 +38,7 @@ class CollectionCenterDbMutator implements \JsonSerializable
             CollectionCenterDictionary::ADDRESS => $this->dto->address,
             CollectionCenterDictionary::ZONE => $this->dto->zone,
             CollectionCenterDictionary::MAP => $this->dto->map,
+            CollectionCenterDictionary::GEOLOCATION => $this->dto->geolocation,
             CollectionCenterDictionary::MORE_INFORMATION => $this->dto->moreInformation,
             CollectionCenterDictionary::CONTACT => $this->dto->contact,
             CollectionCenterDictionary::UPDATED_AT => $this->dto->updatedAt,

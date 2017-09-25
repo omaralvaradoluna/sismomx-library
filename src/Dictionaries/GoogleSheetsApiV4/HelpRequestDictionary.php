@@ -16,6 +16,7 @@ final class HelpRequestDictionary
     const NOT_REQUIRED = 'not_required';
     const ADDRESS = 'address';
     const ZONE = 'zone';
+    const GEOLOCATION = 'geolocation';
     const SOURCE = 'source';
     const UPDATED_AT = 'updated_at';
     const CREATED_AT = 'created_at';

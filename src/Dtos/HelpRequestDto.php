@@ -61,6 +61,11 @@ class HelpRequestDto implements BuiltableInterface
     /**
      * @var string
      */
+    public $geolocation;
+
+    /**
+     * @var string
+     */
     public $source;
 
     /**

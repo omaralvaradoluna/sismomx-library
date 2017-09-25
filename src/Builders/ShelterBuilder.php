@@ -6,6 +6,7 @@ use CodeandoMexico\Sismomx\Core\Dictionaries\GoogleSheetsApiV4\ShelterDictionary
 use CodeandoMexico\Sismomx\Core\Dtos\ShelterDto;
 use CodeandoMexico\Sismomx\Core\Interfaces\Builders\ShelterBuilderInterface;
 use CodeandoMexico\Sismomx\Core\Traits\Base\DatesHelper;
+use CodeandoMexico\Sismomx\Core\Traits\Base\GoogleGeolocationTrait;
 
 /**
  * Class ShelterBuilder
@@ -15,6 +16,7 @@ use CodeandoMexico\Sismomx\Core\Traits\Base\DatesHelper;
 class ShelterBuilder extends BuilderAbstract implements ShelterBuilderInterface
 {
     use DatesHelper;
+    use GoogleGeolocationTrait;
     /**
      * @var ShelterDto
      */
@@ -41,6 +43,10 @@ class ShelterBuilder extends BuilderAbstract implements ShelterBuilderInterface
         $this->builtable->moreInformation = $this->values->getValue(ShelterDictionary::MORE_INFORMATION);
         $this->builtable->location = $this->values->getValue(ShelterDictionary::LOCATION);
         $this->builtable->map = $this->values->getValue(ShelterDictionary::MAP);
+        $this->builtable->geolocation = $this->getGeolocationFromUrl($this->builtable->map);
+        if (empty($this->builtable->geolocation)) {
+            $this->builtable->geolocation = $this->getGeolocationFromAddress($this->builtable->address);
+        }
         $this->builtable->receiving = $this->values->getValue(ShelterDictionary::RECEIVING);
         $this->builtable->updatedAt = $this->stringToDate(
             $this->values->getValue(ShelterDictionary::UPDATED_AT),

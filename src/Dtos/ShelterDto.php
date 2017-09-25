@@ -51,6 +51,11 @@ class ShelterDto implements BuiltableInterface
     /**
      * @var string
      */
+    public $geolocation;
+
+    /**
+     * @var string
+     */
     public $moreInformation;
 
     /**
