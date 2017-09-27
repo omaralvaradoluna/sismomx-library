@@ -34,6 +34,7 @@ class SpecificOfferingsBuilder extends BuilderAbstract implements SpecificOfferi
      */
     public function internalBuild()
     {
+        $this->buildEncodedKey();
         $this->builtable->id = $this->values->getValue(SpecificOfferingsDictionary::ID);
         $this->builtable->moreInformation = $this->values->getValue(SpecificOfferingsDictionary::MORE_INFORMATION);
         $this->builtable->contact = $this->values->getValue(SpecificOfferingsDictionary::CONTACT);
@@ -50,7 +51,38 @@ class SpecificOfferingsBuilder extends BuilderAbstract implements SpecificOfferi
             'Y-m-d H:i:s',
             'now'
         );
-        $this->builtable->encodedKey = hash('sha256',json_encode($this->values->getValues()));
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function buildEncodedKey()
+    {
+        $preKey = [
+            SpecificOfferingsDictionary::OFFERING_FROM => $this->values->getValue(
+                SpecificOfferingsDictionary::OFFERING_FROM
+            ),
+            SpecificOfferingsDictionary::NOTES => $this->values->getValue(
+                SpecificOfferingsDictionary::NOTES
+            ),
+            SpecificOfferingsDictionary::CONTACT => $this->values->getValue(
+                SpecificOfferingsDictionary::CONTACT
+            ),
+            SpecificOfferingsDictionary::OFFERING_DETAILS => $this->values->getValue(
+                SpecificOfferingsDictionary::OFFERING_DETAILS
+            ),
+            SpecificOfferingsDictionary::MORE_INFORMATION => $this->values->getValue(
+                SpecificOfferingsDictionary::MORE_INFORMATION
+            ),
+            SpecificOfferingsDictionary::UPDATED_AT => $this->values->getValue(
+                SpecificOfferingsDictionary::UPDATED_AT
+            ),
+            SpecificOfferingsDictionary::EXPIRES_AT => $this->values->getValue(
+                SpecificOfferingsDictionary::EXPIRES_AT
+            ),
+        ];
+        $this->builtable->encodedKey = hash('sha256',json_encode($preKey));
         return $this;
     }
 }
