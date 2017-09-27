@@ -36,6 +36,7 @@ class HelpRequestBuilder extends BuilderAbstract implements HelpRequestBuilderIn
      */
     public function internalBuild()
     {
+        $this->buildEncodedKey();
         $this->builtable->id = $this->values->getValue(HelpRequestDictionary::ID);
         $this->builtable->zone = $this->values->getValue(HelpRequestDictionary::ZONE);
         $this->builtable->urgencyLevel = $this->values->getValue(HelpRequestDictionary::URGENCY_LEVEL);
@@ -55,7 +56,44 @@ class HelpRequestBuilder extends BuilderAbstract implements HelpRequestBuilderIn
             'Y-m-d H:i:s',
             'now'
         );
-        $this->builtable->encodedKey = hash('sha256',json_encode($this->values->getValues()));
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    protected function buildEncodedKey()
+    {
+        $preKey = [
+            HelpRequestDictionary::URGENCY_LEVEL => $this->values->getValue(
+                HelpRequestDictionary::URGENCY_LEVEL
+            ),
+            HelpRequestDictionary::BRIGADE_REQUIRED => $this->values->getValue(
+                HelpRequestDictionary::BRIGADE_REQUIRED
+            ),
+            HelpRequestDictionary::MOST_IMPORTANT_REQUIRED => $this->values->getValue(
+                HelpRequestDictionary::MOST_IMPORTANT_REQUIRED
+            ),
+            HelpRequestDictionary::ADMITTED => $this->values->getValue(
+                HelpRequestDictionary::ADMITTED
+            ),
+            HelpRequestDictionary::NOT_REQUIRED => $this->values->getValue(
+                HelpRequestDictionary::NOT_REQUIRED
+            ),
+            HelpRequestDictionary::ADDRESS => $this->values->getValue(
+                HelpRequestDictionary::ADDRESS
+            ),
+            HelpRequestDictionary::ZONE => $this->values->getValue(
+                HelpRequestDictionary::ZONE
+            ),
+            HelpRequestDictionary::SOURCE => $this->values->getValue(
+                HelpRequestDictionary::SOURCE
+            ),
+            HelpRequestDictionary::UPDATED_AT => $this->values->getValue(
+                HelpRequestDictionary::UPDATED_AT
+            ),
+        ];
+        $this->builtable->encodedKey = hash('sha256',json_encode($preKey));
         return $this;
     }
 }
