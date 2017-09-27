@@ -35,6 +35,7 @@ class CollectionCenterBuilder extends BuilderAbstract implements CollectionCente
      */
     public function internalBuild()
     {
+        $this->buildEncodedKey();
         $this->builtable->id = $this->values->getValue(CollectionCenterDictionary::ID);
         $this->builtable->map = $this->values->getValue(CollectionCenterDictionary::MAP);
         $this->builtable->encodedKey = $this->values->getValue(CollectionCenterDictionary::ENCODED_KEY);
@@ -56,7 +57,44 @@ class CollectionCenterBuilder extends BuilderAbstract implements CollectionCente
             'Y-m-d H:i:s',
             'now'
         );
-        $this->builtable->encodedKey = hash('sha256',json_encode($this->values->getValues()));
         return $this;
+    }
+
+    /**
+     * @return CollectionCenterDto
+     */
+    protected function buildEncodedKey()
+    {
+        $preKey = [
+            CollectionCenterDictionary::URGENCY_LEVEL => $this->values->getValue(
+                CollectionCenterDictionary::URGENCY_LEVEL
+            ),
+            CollectionCenterDictionary::LOCATION => $this->values->getValue(
+                CollectionCenterDictionary::LOCATION
+            ),
+            CollectionCenterDictionary::REQUIREMENTS_DETAILS => $this->values->getValue(
+                CollectionCenterDictionary::REQUIREMENTS_DETAILS
+            ),
+            CollectionCenterDictionary::ADDRESS => $this->values->getValue(
+                CollectionCenterDictionary::ADDRESS
+            ),
+            CollectionCenterDictionary::ZONE => $this->values->getValue(
+                CollectionCenterDictionary::ZONE
+            ),
+            CollectionCenterDictionary::MAP => $this->values->getValue(
+                CollectionCenterDictionary::MAP
+            ),
+            CollectionCenterDictionary::MORE_INFORMATION => $this->values->getValue(
+                CollectionCenterDictionary::MORE_INFORMATION
+            ),
+            CollectionCenterDictionary::UPDATED_AT => $this->values->getValue(
+                CollectionCenterDictionary::UPDATED_AT
+            ),
+            CollectionCenterDictionary::CONTACT => $this->values->getValue(
+                CollectionCenterDictionary::CONTACT
+            ),
+        ];
+        $this->builtable->encodedKey = hash('sha256',json_encode($preKey));
+        return $this->builtable;
     }
 }
