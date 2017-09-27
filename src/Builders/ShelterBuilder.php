@@ -35,6 +35,7 @@ class ShelterBuilder extends BuilderAbstract implements ShelterBuilderInterface
      */
     public function internalBuild()
     {
+        $this->buildEncodedKey();
         $this->builtable->id = $this->values->getValue(ShelterDictionary::ID);
         $this->builtable->zone = $this->values->getValue(ShelterDictionary::ZONE);
         $this->builtable->address = $this->values->getValue(ShelterDictionary::ADDRESS);
@@ -51,7 +52,24 @@ class ShelterBuilder extends BuilderAbstract implements ShelterBuilderInterface
             'Y-m-d H:i:s',
             'now'
         );
-        $this->builtable->encodedKey = hash('sha256',json_encode($this->values->getValues()));
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    protected function buildEncodedKey()
+    {
+        $preKey = [
+            ShelterDictionary::LOCATION => $this->values->getValue(ShelterDictionary::LOCATION),
+            ShelterDictionary::RECEIVING => $this->values->getValue(ShelterDictionary::RECEIVING),
+            ShelterDictionary::ADDRESS => $this->values->getValue(ShelterDictionary::ADDRESS),
+            ShelterDictionary::ZONE => $this->values->getValue(ShelterDictionary::ZONE),
+            ShelterDictionary::MAP => $this->values->getValue(ShelterDictionary::MAP),
+            ShelterDictionary::MORE_INFORMATION => $this->values->getValue(ShelterDictionary::MORE_INFORMATION),
+            ShelterDictionary::UPDATED_AT => $this->values->getValue(ShelterDictionary::UPDATED_AT),
+        ];
+        $this->builtable->encodedKey = hash('sha256',json_encode($preKey));
         return $this;
     }
 }
